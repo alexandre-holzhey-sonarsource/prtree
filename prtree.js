@@ -2,9 +2,12 @@ const { Octokit } = require("@octokit/rest");
 const octokit = new Octokit({auth: process.env.GITHUB_TOKEN});
 const colors = require("colors")
 
+const owner = process.env.GITHUB_ORGANIZATION
+const repo = process.env.GITHUB_REPO
+
 octokit.repos.getBranch({
-  owner: "SonarSource",
-  repo: "sonarcloud-core",
+  owner: owner,
+  repo: repo,
   branch: "master"
 }).then(branch => {
   var masterNode = {
@@ -17,8 +20,8 @@ octokit.repos.getBranch({
   octokit.paginate(
     "GET /repos/:owner/:repo/pulls?state=:state",
     {
-      owner: "SonarSource",
-      repo: "sonarcloud-core",
+      owner: owner,
+      repo: repo,
       state: "open"
     })
     .then((data) => {
